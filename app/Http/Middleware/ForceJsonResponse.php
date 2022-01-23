@@ -21,7 +21,7 @@ class ForceJsonResponse
     public function handle($request, Closure $next)
     {
         $request->headers->set('Accept', 'application/json');
-
+        //if JSON is passed instead of form data, add that to the request
         if ($request->json()->all()) {
             $request->request->add($request->json()->all());
         }

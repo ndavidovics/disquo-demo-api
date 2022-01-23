@@ -3,17 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\BaseController as BaseController;
+use Illuminate\Support\Facades\Auth;
+use App\User;
+use App\Note;
+use Validator;
 
-class NoteController extends Controller
+class NoteController extends BaseController
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        return json_encode($request->user()->notes);
     }
 
     /**
@@ -21,21 +26,24 @@ class NoteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         //
+        $input = $request->all();
+        $validator = Validator::make($request->all(), [
+            'text' => 'required|max:1000',
+            'title' => 'required|max:50'
+        ]);
+   
+        if($validator->fails()){
+            return $this->sendError('Validation Error.', $validator->errors());       
+        }
+        $input['user_id'] = $request->user()->id; //attached to logged in User
+        $note = Note::create($input);
+   
+        return $note;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
     /**
      * Display the specified resource.
@@ -46,18 +54,13 @@ class NoteController extends Controller
     public function show($id)
     {
         //
+        $note = Auth::user()->notes()->find($id);
+        if ($note) {
+            return $note;
+        }
+        return $this->sendError('Note not found');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -69,6 +72,26 @@ class NoteController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $note = Auth::user()->notes()->find($id);
+        if (!$note) {
+            return $this->sendError('Note not found');
+        }
+
+        $input = $request->all();
+        $validator = Validator::make($request->all(), [
+            'text' => 'max:1000',
+            'title' => 'max:50'
+        ]);
+   
+        if($validator->fails()){
+            return $this->sendError('Validation Error.', $validator->errors());       
+        }
+
+        if ($input['text']) {$note->text = $input['text'];}
+        if ($input['title']) {$note->title = $input['title'];}
+        
+        $note->save();
+        return $note;
     }
 
     /**
@@ -80,5 +103,12 @@ class NoteController extends Controller
     public function destroy($id)
     {
         //
+        $note = Auth::user()->notes()->find($id);
+        if (!$note) {
+            return $this->sendError('Note not found');
+        }
+
+        $note->delete();
+        return 1;
     }
 }

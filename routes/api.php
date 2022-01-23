@@ -21,6 +21,10 @@ use Illuminate\Support\Facades\Route;
 Route::post('register', 'RegisterController@register');
 Route::post('login', 'RegisterController@login');
 
-Route::middleware('auth:api')->group( function () {
-
+Route::middleware(['auth:api','json.response'])->group( function () {
+    Route::get('notes', 'NoteController@index');
+    Route::get('note/{id}', 'NoteController@show');
+    Route::put('note/{id}', 'NoteController@update');
+    Route::post('note', 'NoteController@create');
+    Route::delete('note/{id}', 'NoteController@destroy');
 });

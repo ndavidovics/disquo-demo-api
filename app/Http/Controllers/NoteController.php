@@ -16,9 +16,9 @@ class NoteController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        return json_encode($request->user()->notes);
+        return Auth::user()->notes;
     }
 
     /**
@@ -31,14 +31,14 @@ class NoteController extends BaseController
         //
         $input = $request->all();
         $validator = Validator::make($request->all(), [
-            'text' => 'required|max:1000',
+            'text' => 'max:1000',
             'title' => 'required|max:50'
         ]);
    
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors());       
         }
-        $input['user_id'] = $request->user()->id; //attached to logged in User
+        $input['user_id'] = Auth::user()->id; //attached to logged in User
         $note = Note::create($input);
    
         return $note;

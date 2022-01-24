@@ -1,4 +1,4 @@
-## DISQUO Demo Notes API
+# DISQUO Demo Notes API
 
 Main URL: http://54.196.211.73/api
 
@@ -19,7 +19,7 @@ Bearer Token
 
 
 
-#Login:
+## Login:
 
 curl -i -H 'Accept: application/json' -d '{"email":"email@mail.com","password":"12345678"}' http://54.196.211.73/api/login
 
@@ -41,7 +41,7 @@ To access CRUD operations, you need to include Token in Authorization header ass
 
 
 
-#List Notes: 
+## List Notes: 
 
 curl -i -H 'Accept: application/json' -H "Authorization: Bearer {token}" http://54.196.211.73/api/notes
 
@@ -50,7 +50,7 @@ GET http://54.196.211.73/api/notes
 Returns all notes associated with user
 
 
-#Create Note:
+## Create Note:
 
 curl -i -H 'Accept: application/json' -H "Authorization: Bearer {token}" -d '{"title":"title","text":"sample note text"}' http://54.196.211.73/api/note
 
@@ -65,7 +65,7 @@ Returns:
 Created Note
 
 
-#Retrieve Note:
+## Retrieve Note:
 
 curl -i -H 'Accept: application/json' -H "Authorization: Bearer {token}" http://54.196.211.73/api/note/{note_id}
 
@@ -77,7 +77,7 @@ Retrieved Note
 
 
 
-#Update Note:
+## Update Note:
 
 curl -i -H 'Accept: application/json' -H "Authorization: Bearer {token}" -X PUT -d '{"title":"title","text":"sample note text"}' http://54.196.211.73/api/note/{note_id}
 
@@ -93,7 +93,7 @@ Updated Note
 
 
 
-#Delete Note:
+## Delete Note:
 
 curl -i -H 'Accept: application/json' -H "Authorization: Bearer {token}" -X DELETE http://54.196.211.73/api/note/{note_id}
 

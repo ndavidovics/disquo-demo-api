@@ -2,7 +2,7 @@
 
 Main URL: http://54.196.211.73/api
 
-#Register a user:
+## Register a user:
 
 curl -i -H 'Accept: application/json' -d '{"name":"Foo","email":"email@mail.com","password":"12345678","c_password":"12345678"}' http://54.196.211.73/api/register
 

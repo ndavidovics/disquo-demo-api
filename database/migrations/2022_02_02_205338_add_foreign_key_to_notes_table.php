@@ -17,7 +17,7 @@ class AddForeignKeyToNotesTable extends Migration
             //
             $table->bigInteger('user_id')->unsigned()->change();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            //$table->index('user_id');
+            $table->index('user_id');
         });
     }
 

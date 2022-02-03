@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController as BaseController;
 use Illuminate\Support\Facades\Auth;
-use DB;
+use Illuminate\Support\Facades\DB;
 use App\User;
 use App\Note;
 use Validator;
@@ -19,10 +19,7 @@ class NoteController extends BaseController
      */
     public function index()
     {
-        DB::enableQueryLog();
-        $notes = Auth::user()->notes;
-        dd(DB::getQueryLog());
-        
+        return Auth::user()->notes()->paginate(15);
     }
 
     /**
@@ -91,8 +88,8 @@ class NoteController extends BaseController
             return $this->sendError('Validation Error.', $validator->errors());       
         }
 
-        if ($input['text']) {$note->text = $input['text'];}
-        if ($input['title']) {$note->title = $input['title'];}
+        if (isset($input['text'])) {$note->text = $input['text'];}
+        if (isset($input['title'])) {$note->title = $input['title'];}
         
         $note->save();
         return $note;

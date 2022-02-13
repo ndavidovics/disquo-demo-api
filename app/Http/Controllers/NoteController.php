@@ -110,6 +110,6 @@ class NoteController extends BaseController
         }
 
         $note->delete();
-        return $this->sendResponse($success, 'Note Deleted successfully.');
+        return $this->sendResponse(1,'Note Deleted successfully.');
     }
 }

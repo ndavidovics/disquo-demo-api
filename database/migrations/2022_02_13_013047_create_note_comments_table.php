@@ -19,6 +19,7 @@ class CreateNoteCommentsTable extends Migration
             $table->foreign('note_id')->references('id')->on('notes')->onDelete('cascade');
             $table->string('comment');
             $table->timestamps();
+            $table->index('note_id');
         });
     }
 
